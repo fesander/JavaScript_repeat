@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    console.log("Задание 1");
+    console.log("Простые числа");
+
+    function simpleNumber(n) {
+        let simpleList = [],
+            isSimple;
+        for (let i = 2; i < n; i++) {
+            isSimple = true;
+            for (j in simpleList) {
+                if (i % simpleList[j] == 0) {
+                    isSimple = false;
+                    break;
+                }
+            }
+            if(isSimple)
+                simpleList.push(i);
+        }
+        return simpleList;
+    }
+    console.log(simpleNumber(100));
+
+    console.log("\nЗадание 2");
+    let num = 0;
+    do {
+        if (num === 0)
+            console.log(num + " - это ноль");
+        else if ( num % 2 === 0)
+            console.log(num + " - четное число");
+        else
+            console.log(num + " - нечетное число");
+    } while (num++ < 10);
+
+    console.log("\nЗадание 3");
+    for ( i = 0; i < 10; console.log(i++)){}
+
+    console.log("\nЗадание 4");
+    let arr = [];
+    for (i = 1; i <= 20; i++, arr.push('*'), console.log(arr.join('*'))) {}
+
+    console.log("\nЗадание 5");
+    function getRandomArbitary(min, max)
+    {
+        return (Math.random() * (max - min) + min).toFixed(0);
+    }
+
+    lenghtA = getRandomArbitary(1,20);
+    lenghtB = getRandomArbitary(1,20);
+    A = [];
+    B = [];
+    C = [];
+    for (i = 0 ; i < lenghtA; i++) {
+        A.push(getRandomArbitary(-10,10));
+    }
+    for (i = 0 ; i < lenghtB; i++) {
+        B.push(getRandomArbitary(-10,10));
+        if (A.includes(B[i]) && !C.includes(B[i]))
+            C.push(B[i]);
+    }
+    console.log("Массив 1:");
+    console.log(A.join(' '));
+    console.log("Массив 2:");
+    console.log(B.join(' '));
+    console.log("Массив 3 пересечение:");
+    console.log(C.join(' '));
+
+
+</script>
+</body>
+</html>
