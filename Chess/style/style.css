@@ -24,6 +24,8 @@
       border: 1px solid blue; }
   .table .take-piece {
     border: 2px solid green; }
+  .table .possible-step {
+    border: 2px solid green; }
   .table .chess-piece-white {
     background-position-y: 0; }
   .table .chess-piece-black {
