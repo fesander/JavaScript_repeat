@@ -1,0 +1,44 @@
+.container {
+  width: 1200px;
+  height: 1000px;
+  background-color: antiquewhite;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.table {
+  height: 880px;
+  width: 880px;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(8, 110px);
+  grid-template-rows: repeat(8, 110px); }
+  .table .black-cell {
+    background-color: gray; }
+  .table .white-cell {
+    background-color: white; }
+  .table .chess-piece {
+    background-image: url("../images/chess-pieces.png"); }
+    .table .chess-piece:hover {
+      border: 1px solid blue; }
+  .table .take-piece {
+    border: 2px solid green; }
+  .table .chess-piece-white {
+    background-position-y: 0; }
+  .table .chess-piece-black {
+    background-position-y: 105px; }
+  .table .king {
+    background-position-x: 0px; }
+  .table .queen {
+    background-position-x: -105px; }
+  .table .bishop {
+    background-position-x: -210px; }
+  .table .knight {
+    background-position-x: -315px; }
+  .table .rook {
+    background-position-x: -420px; }
+  .table .pawn {
+    background-position-x: -530px; }
+
+/*# sourceMappingURL=style.css.map */
