@@ -1,14 +1,22 @@
+// Исходный контейнер из HTML документа
 let container = document.getElementById("container");
+
+// Добавнение блока, который будет основой шахматной доски
 let table = document.createElement('div');
 table.classList.add('table');
 container.appendChild(table);
 
+// Количество строк и столбцов
 let numberOfCells = 8;
+// Верменная переменная, являющаяся одной клеткой доски
 let tableCell;
+// Переключатель - выбрал ли ты фигуру для хода
 let choosePiece = false;
 
+// Массив из шахматных фигур, кроме пешки
 let chassePieseMap = ['rook', 'knight', 'bishop' , 'queen' , 'king' , 'bishop' , 'knight' , 'rook'];
 
+// Функция генерации пустого двумерного массива, заданного размера
 function matrixArray(rows,columns){
     let arr = [];
     for(let i=0; i<rows; i++){
@@ -20,25 +28,33 @@ function matrixArray(rows,columns){
     return arr;
 }
 
+// Матрица, в которой будет содержаться текущее состояние фигур на доске
 let fullTableMap = matrixArray(numberOfCells,numberOfCells);
-let possibleStepsTableMap = matrixArray(numberOfCells,numberOfCells);
+// Матрица возможных ходов для выбранной фигуры
+let possibleStepsTableMap;
 
+// Сброс состояций всех клеток
 function resetTable() {
+    // Удаление клеток
     while (table.firstChild) {
         table.removeChild(table.firstChild);
     }
+    // Создание клеток, юобавление необходимых классок
     for ( let i = 0; i < numberOfCells ; i++) {
         for (let j = 0; j < numberOfCells; j++) {
             tableCell = document.createElement('div');
+            // Опраделение цвета клетки
             ((i + j) % 2 == 0) ? tableCell.classList.add('white-cell') : tableCell.classList.add('black-cell');
+            // Порядковый номер клетки
             tableCell.classList.add('cell-' + i + '-' + j);
             table.appendChild(tableCell);
-            tableCell.classList.remove('chess-piece');
-            tableCell.classList.remove('possible-step');
         }
     }
+    // Обнуление матрицы возможных ходов для выбранной фигуры
+    possibleStepsTableMap = matrixArray(numberOfCells,numberOfCells);
 }
 
+//Вывод на экран текущее положение фигур
 function displayCurrentPosition() {
     for ( let i = 0; i < numberOfCells ; i++) {
         for (let j = 0; j < numberOfCells; j++) {
@@ -47,31 +63,38 @@ function displayCurrentPosition() {
                 tableCell.classList.add('chess-piece');
                 tableCell.classList.add(fullTableMap[i][j].piece);
                 tableCell.classList.add(fullTableMap[i][j].color);
+                // Ожидание, что мы выберем фигуру для хода
                 tableCell.addEventListener('click', takePeace);
             }
-            tableCell.addEventListener('click', nextStep);
         }
     }
 }
 
+// Вывод вожможных ходов для выюранной фигуры
 function displayPossibleSteps() {
     for ( let i = 0; i < numberOfCells ; i++) {
         for (let j = 0; j < numberOfCells; j++) {
             tableCell = document.getElementsByClassName('cell-' + i + '-' + j)[0];
             if (possibleStepsTableMap[i][j] != null) {
                 tableCell.classList.add('possible-step');
+                // Ожинание, что вы подвинем куда-нибудь выбранную фигуру
+                tableCell.addEventListener('click', nextStep);
             }
         }
     }
 }
 
+// Функция, отслеживыюцая выбор фигуры для хода
 function takePeace() {
+    // Ели эта фигура уже выюрана - снять выделение
+    console.log(choosePiece);
     if (this.classList.contains('take-piece')) {
         this.classList.remove('take-piece');
         choosePiece = false;
         resetTable();
         displayCurrentPosition();
     }
+    // Выбрать фигуру, если не выбрана уже какая-то другая
     else if (!choosePiece){
         this.classList.add('take-piece');
         choosePiece = true;
@@ -79,6 +102,7 @@ function takePeace() {
     }
 }
 
+// Оброаботка перемещения фигуры
 function nextStep() {
     if (choosePiece) {
         let yP,
@@ -114,6 +138,7 @@ function nextStep() {
     }
 }
 
+// Расчет возможных перемещеный для фигуры
 function possibleMove(currentCellClassList) {
     console.log("PossibleMove executed:\n" + currentCellClassList);
     let yC,
@@ -136,6 +161,7 @@ function possibleMove(currentCellClassList) {
     console.log(xC + "\n" + yC);
 }
 
+// Расчет траектории перемещение для пешки
 function possibleMovePawn(x , y) {
     let direction = 1;
     if(fullTableMap[x][y].color == 'chess-piece-white') {
@@ -146,9 +172,11 @@ function possibleMovePawn(x , y) {
     console.log((1 * direction) + x);
     possibleStepsTableMap[x + (1 * direction)][y] = true;
     if(x == 6 && direction == -1 || x == 1 && direction == 1)
+        // Заполнение матрицы возможных ходов для выбранной фигуры
         possibleStepsTableMap[x + (2 * direction)][y] = true;
 }
 
+// Инициализация новой партии
 function getInitialPosition() {
     for ( let i = 0; i < numberOfCells ; i++) {
         for (let j = 0; j < numberOfCells; j++ ) {
@@ -173,6 +201,7 @@ function getInitialPosition() {
             }
 
             if (cell.piece != null)
+                // Заполнение матрицы, в которой будет содержаться текущее состояние фигур на доске
                 fullTableMap[i][j] = cell;
         }
     }
