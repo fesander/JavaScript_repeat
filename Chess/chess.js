@@ -13,6 +13,14 @@ let tableCell;
 // Переключатель - выбрал ли ты фигуру для хода
 let choosePiece = false;
 
+// Переменная определяющая чей сейчас ход
+let whiteStep = true;
+
+// Функция передачи хода другому игроку
+function toggleStep() {
+    whiteStep =  (whiteStep) ? false : true;
+}
+
 // Массив из шахматных фигур, кроме пешки
 let chassePieseMap = ['rook', 'knight', 'bishop' , 'queen' , 'king' , 'bishop' , 'knight' , 'rook'];
 
@@ -64,7 +72,9 @@ function displayCurrentPosition() {
                 tableCell.classList.add(fullTableMap[i][j].piece);
                 tableCell.classList.add(fullTableMap[i][j].color);
                 // Ожидание, что мы выберем фигуру для хода
-                tableCell.addEventListener('click', takePeace);
+                if ((whiteStep && fullTableMap[i][j].color == 'chess-piece-white') ||
+                    (!whiteStep && fullTableMap[i][j].color == 'chess-piece-black'))
+                        tableCell.addEventListener('click', takePeace);
             }
         }
     }
@@ -133,6 +143,7 @@ function nextStep() {
             fullTableMap[xP][yP] = null;
             choosePiece = false;
             resetTable();
+            toggleStep();
             displayCurrentPosition();
         }
     }
